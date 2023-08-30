@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://uleqob5tcc4u"]
+
+[ext_resource type="PackedScene" uid="uid://ba1kc3d2dl4fa" path="res://scenes/enemy.tscn" id="1_3mxug"]
+
+[node name="Enemy" instance=ExtResource("1_3mxug")]
+speed = 50
+hp = 7
+points = 300
+enemy_type = 2

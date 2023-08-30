@@ -1,0 +1,96 @@
+[gd_scene load_steps=15 format=3 uid="uid://dfu3fjdb38na5"]
+
+[ext_resource type="Script" path="res://scripts/game.gd" id="1_vo1l4"]
+[ext_resource type="PackedScene" uid="uid://daimuyqyagfuv" path="res://scenes/player.tscn" id="2_b5bxw"]
+[ext_resource type="PackedScene" uid="uid://ba1kc3d2dl4fa" path="res://scenes/enemy.tscn" id="2_lv8hy"]
+[ext_resource type="PackedScene" uid="uid://dfab5501snqyo" path="res://scenes/TYPE_B.tscn" id="3_a44yn"]
+[ext_resource type="AudioStream" uid="uid://ctnkxxt446u6b" path="res://assets/Effects/laser.mp3" id="4_1qb6l"]
+[ext_resource type="PackedScene" uid="uid://c0kvfenoxlrtw" path="res://scenes/hud.tscn" id="4_5xocv"]
+[ext_resource type="PackedScene" uid="uid://uleqob5tcc4u" path="res://scenes/TYPE_C.tscn" id="4_87co4"]
+[ext_resource type="PackedScene" uid="uid://6pe8pe0om4ml" path="res://scenes/power_up.tscn" id="5_2u8cc"]
+[ext_resource type="PackedScene" uid="uid://1a7g1mc8edrl" path="res://scenes/game_over_screen.tscn" id="5_6h0l0"]
+[ext_resource type="AudioStream" uid="uid://bhxdurl47ulf4" path="res://assets/Effects/mixkit-electronic-retro-block-hit-2185.wav" id="5_uqff3"]
+[ext_resource type="Texture2D" uid="uid://dwepokanqxdl4" path="res://assets/Space_BG (2 frames) (64 x 64).png" id="6_wdtag"]
+[ext_resource type="Texture2D" uid="uid://4oupvx124wcx" path="res://assets/Effects/Sparkle3.png" id="7_0bhe7"]
+[ext_resource type="AudioStream" uid="uid://da076e1id2ehd" path="res://assets/Effects/space-120280.mp3" id="13_kssb6"]
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_roxx3"]
+emission_shape = 3
+emission_box_extents = Vector3(270, 1, 1)
+particle_flag_disable_z = true
+direction = Vector3(0, -1, 0)
+spread = 0.0
+gravity = Vector3(0, 0, 0)
+initial_velocity_min = -1000.0
+initial_velocity_max = -1000.0
+orbit_velocity_min = 0.0
+orbit_velocity_max = 0.0
+
+[node name="Game" type="Node2D"]
+script = ExtResource("1_vo1l4")
+enemy_seans = Array[PackedScene]([ExtResource("2_lv8hy"), ExtResource("3_a44yn"), ExtResource("4_87co4")])
+power_seans = Array[PackedScene]([ExtResource("5_2u8cc")])
+
+[node name="UILayer" type="CanvasLayer" parent="."]
+
+[node name="HUD" parent="UILayer" instance=ExtResource("4_5xocv")]
+metadata/_edit_use_anchors_ = true
+
+[node name="GameOverScreen" parent="UILayer" instance=ExtResource("5_6h0l0")]
+visible = false
+
+[node name="ParallaxBackground" type="ParallaxBackground" parent="."]
+
+[node name="ParallaxLayer" type="ParallaxLayer" parent="ParallaxBackground"]
+motion_mirroring = Vector2(0, 960)
+
+[node name="PurpleStars" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer"]
+texture_repeat = 2
+texture = ExtResource("6_wdtag")
+centered = false
+region_enabled = true
+region_rect = Rect2(0, 0, 540, 960)
+
+[node name="StarParticleEffect" type="GPUParticles2D" parent="."]
+position = Vector2(270, -50)
+amount = 20
+process_material = SubResource("ParticleProcessMaterial_roxx3")
+texture = ExtResource("7_0bhe7")
+lifetime = 1.25
+preprocess = 5.0
+
+[node name="EnemySpownTimer" type="Timer" parent="."]
+wait_time = 2.0
+autostart = true
+
+[node name="PowerSpownTimer" type="Timer" parent="."]
+wait_time = 7.0
+autostart = true
+
+[node name="Player" parent="." instance=ExtResource("2_b5bxw")]
+
+[node name="PlayerSpownPos" type="Marker2D" parent="."]
+position = Vector2(270, 777)
+
+[node name="LaserConteiner" type="Node2D" parent="."]
+
+[node name="EnemyConteiner" type="Node2D" parent="."]
+
+[node name="PowerConteiner" type="Node2D" parent="."]
+
+[node name="SFX" type="Node" parent="."]
+
+[node name="LaserSound" type="AudioStreamPlayer" parent="SFX"]
+stream = ExtResource("4_1qb6l")
+volume_db = -10.0
+
+[node name="HitSound" type="AudioStreamPlayer" parent="SFX"]
+stream = ExtResource("5_uqff3")
+volume_db = -10.0
+
+[node name="sound" type="AudioStreamPlayer" parent="SFX"]
+stream = ExtResource("13_kssb6")
+volume_db = -10.0
+
+[connection signal="timeout" from="EnemySpownTimer" to="." method="_on_enemy_spown_timer_timeout"]
+[connection signal="timeout" from="PowerSpownTimer" to="." method="_on_power_spown_timer_timeout"]

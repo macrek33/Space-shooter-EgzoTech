@@ -1,0 +1,12 @@
+[gd_scene load_steps=2 format=3 uid="uid://dfab5501snqyo"]
+
+[ext_resource type="PackedScene" uid="uid://ba1kc3d2dl4fa" path="res://scenes/enemy.tscn" id="1_mn6ih"]
+
+[node name="Enemy" instance=ExtResource("1_mn6ih")]
+speed = 300
+hp = 1
+points = 50
+enemy_type = 1
+
+[node name="AnimatedSprite2D" parent="Sprite2D" index="0"]
+animation = &"bon"

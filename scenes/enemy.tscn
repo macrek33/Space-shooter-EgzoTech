@@ -1,0 +1,146 @@
+[gd_scene load_steps=19 format=3 uid="uid://ba1kc3d2dl4fa"]
+
+[ext_resource type="Script" path="res://scripts/enemy.gd" id="1_c7j4i"]
+[ext_resource type="Texture2D" uid="uid://dr83i82tu4dlr" path="res://assets/Enemies/Bon_Bon1.png" id="2_apu6g"]
+[ext_resource type="Texture2D" uid="uid://b5k8ur00t2auh" path="res://assets/Enemies/Bon_Bon2.png" id="3_u0pp7"]
+[ext_resource type="Texture2D" uid="uid://jxxbaejvayps" path="res://assets/Enemies/Bon_Bon3.png" id="4_yud3v"]
+[ext_resource type="Texture2D" uid="uid://dmvdna3nqu0ow" path="res://assets/Enemies/Bon_Bon4.png" id="5_nohta"]
+[ext_resource type="Texture2D" uid="uid://cpj0bosk8sb6y" path="res://assets/Enemies/Lips.png" id="6_ohclw"]
+[ext_resource type="Texture2D" uid="uid://c0qa77416ws3c" path="res://assets/Enemies/Lips2.png" id="7_c05w4"]
+[ext_resource type="Texture2D" uid="uid://c7k708i1w54xm" path="res://assets/Enemies/Lips3.png" id="8_78omm"]
+[ext_resource type="Texture2D" uid="uid://c87q44l8lfkg2" path="res://assets/Enemies/Lips4.png" id="9_agwk6"]
+[ext_resource type="Texture2D" uid="uid://3gon34ecube2" path="res://assets/Enemies/Lips5.png" id="10_qpdr6"]
+[ext_resource type="Texture2D" uid="uid://dw3pbkoqxc0r1" path="res://assets/Enemies/Alan5.png" id="11_am6hs"]
+[ext_resource type="Texture2D" uid="uid://bdqfmt0k4hcnh" path="res://assets/Enemies/Alan1.png" id="12_f5f4d"]
+[ext_resource type="Texture2D" uid="uid://c2aiilb78ubjs" path="res://assets/Enemies/Alan2.png" id="13_7v72x"]
+[ext_resource type="Texture2D" uid="uid://bbvs7kjvn2s8p" path="res://assets/Enemies/Alan3.png" id="14_wljoc"]
+[ext_resource type="Texture2D" uid="uid://dg0iq78bf5bu6" path="res://assets/Enemies/Alan4.png" id="15_d6eb0"]
+[ext_resource type="Texture2D" uid="uid://b7gl2apw3fpj6" path="res://assets/Enemies/Alan6.png" id="16_kqp71"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_knsws"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("12_f5f4d")
+}, {
+"duration": 1.0,
+"texture": ExtResource("13_7v72x")
+}, {
+"duration": 1.0,
+"texture": ExtResource("14_wljoc")
+}, {
+"duration": 1.0,
+"texture": ExtResource("13_7v72x")
+}, {
+"duration": 1.0,
+"texture": ExtResource("11_am6hs")
+}, {
+"duration": 1.0,
+"texture": ExtResource("11_am6hs")
+}, {
+"duration": 1.0,
+"texture": ExtResource("15_d6eb0")
+}, {
+"duration": 1.0,
+"texture": ExtResource("16_kqp71")
+}, {
+"duration": 1.0,
+"texture": ExtResource("13_7v72x")
+}, {
+"duration": 1.0,
+"texture": ExtResource("14_wljoc")
+}, {
+"duration": 1.0,
+"texture": ExtResource("13_7v72x")
+}],
+"loop": true,
+"name": &"alien",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("5_nohta")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_apu6g")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_u0pp7")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_yud3v")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_u0pp7")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_apu6g")
+}],
+"loop": true,
+"name": &"bon",
+"speed": 5.0
+}, {
+"frames": [],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("7_c05w4")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_78omm")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_agwk6")
+}, {
+"duration": 1.0,
+"texture": ExtResource("10_qpdr6")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_ohclw")
+}, {
+"duration": 1.0,
+"texture": ExtResource("10_qpdr6")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_agwk6")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_78omm")
+}],
+"loop": true,
+"name": &"lips",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ajvm7"]
+radius = 25.0
+
+[node name="Enemy" type="Area2D"]
+position = Vector2(200, 108)
+collision_layer = 2
+collision_mask = 5
+script = ExtResource("1_c7j4i")
+speed = 125
+hp = 3
+points = 200
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(4, 4)
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Sprite2D"]
+sprite_frames = SubResource("SpriteFrames_knsws")
+animation = &"alien"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 5)
+shape = SubResource("CircleShape2D_ajvm7")
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+position = Vector2(-1, -40)
+scale = Vector2(1, 0.35)
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]
